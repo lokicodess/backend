@@ -15,7 +15,75 @@ datasource db {
 
 model user{
   id Int @id @default(autoincrement())
-  name String
+  username String
   email String @unique
   password String
+  shipping_address String 
+  created_at DateTime @default(now())
+  payment_info String
+  order order[]
+  review review[]
+}
+
+model admin {
+  id Int @id @default(autoincrement())
+  username String 
+  email String @unique
+  password String 
+  created_at DateTime @default(now())
+}
+
+model author {
+  id Int @id @default(autoincrement())
+  name String
+  biography String
+  book book[]
+  created_at DateTime @default(now())
+}
+
+model book {
+  id Int @id @default(autoincrement())
+  title String
+  description String
+  author author @relation(fields: [author_id],references: [id])
+  author_id Int
+  category category
+  price Int
+  inventory Int
+  published_date DateTime
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  review review[]
+}
+
+model order {
+  id Int @id @default(autoincrement())
+  user user @relation(fields: [user_id],references: [id])
+  user_id Int
+  items String[]
+  total_price Int
+  status status
+  created_at DateTime @default(now())
+}
+
+model review {
+  id Int @id @default(autoincrement())
+  book book @relation(fields: [book_id],references: [id])
+  user user @relation(fields: [user_id],references: [id])
+  book_id Int
+  user_id Int
+  rating Int
+  comment String
+  created_at DateTime @default(now())
+}
+
+enum category {
+  FICTION
+  NON_FICTION
+}
+
+enum status {
+  PENDING
+  DELIVERED
+  SHIPPED
 }

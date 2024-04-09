@@ -1,24 +1,21 @@
-/*
-  Warnings:
-
-  - You are about to drop the column `name` on the `user` table. All the data in the column will be lost.
-  - Added the required column `payment_info` to the `user` table without a default value. This is not possible if the table is not empty.
-  - Added the required column `shipping_address` to the `user` table without a default value. This is not possible if the table is not empty.
-  - Added the required column `username` to the `user` table without a default value. This is not possible if the table is not empty.
-
-*/
 -- CreateEnum
 CREATE TYPE "category" AS ENUM ('FICTION', 'NON_FICTION');
 
 -- CreateEnum
 CREATE TYPE "status" AS ENUM ('PENDING', 'DELIVERED', 'SHIPPED');
 
--- AlterTable
-ALTER TABLE "user" DROP COLUMN "name",
-ADD COLUMN     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-ADD COLUMN     "payment_info" TEXT NOT NULL,
-ADD COLUMN     "shipping_address" TEXT NOT NULL,
-ADD COLUMN     "username" TEXT NOT NULL;
+-- CreateTable
+CREATE TABLE "user" (
+    "id" SERIAL NOT NULL,
+    "username" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
+    "password" TEXT NOT NULL,
+    "shipping_address" TEXT NOT NULL,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "payment_info" TEXT NOT NULL,
+
+    CONSTRAINT "user_pkey" PRIMARY KEY ("id")
+);
 
 -- CreateTable
 CREATE TABLE "admin" (
@@ -80,6 +77,9 @@ CREATE TABLE "review" (
 
     CONSTRAINT "review_pkey" PRIMARY KEY ("id")
 );
+
+-- CreateIndex
+CREATE UNIQUE INDEX "user_email_key" ON "user"("email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "admin_email_key" ON "admin"("email");

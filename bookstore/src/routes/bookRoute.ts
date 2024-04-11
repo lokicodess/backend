@@ -1,35 +1,22 @@
 import express from "express";
+import {
+  deleteBook,
+  getAllBooks,
+  getBookById,
+  registerBook,
+  updateBook,
+} from "../controllers/bookController";
 
 const bookRouter = express.Router();
 
-bookRouter.get("/", (req, res) => {
-  res.json({
-    message: "all the books",
-  });
-});
+bookRouter.get("/", getAllBooks);
 
-bookRouter.get("/books/:id", (req, res) => {
-  res.json({
-    message: "book fetched",
-  });
-});
+bookRouter.get("/books/:id", getBookById);
 
-bookRouter.post("/", (req, res) => {
-  res.json({
-    message: "book added",
-  });
-});
+bookRouter.post("/", registerBook);
 
-bookRouter.put("/books/:id", (req, res) => {
-  res.json({
-    message: "book updated",
-  });
-});
+bookRouter.put("/books/:id", updateBook);
 
-bookRouter.delete("/books/:id", (req, res) => {
-  res.json({
-    message: "book deleted successfully",
-  });
-});
+bookRouter.delete("/books/:id", deleteBook);
 
 export default bookRouter;

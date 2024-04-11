@@ -10,6 +10,6 @@ const adminRouter = express_1.default.Router();
 adminRouter.post("/register", adminController_1.registerAdmin);
 adminRouter.post("/login", adminController_1.loginAdmin);
 // adminRouter.get("/:id", authMiddleware, adminDetails);
-adminRouter.get("/me", authMiddleware_1.default, adminController_1.fetchMe);
+adminRouter.get("/me", authMiddleware_1.default, adminController_1.adminDetails);
 adminRouter.put("/me", authMiddleware_1.default, adminController_1.updateAdmin);
 exports.default = adminRouter;

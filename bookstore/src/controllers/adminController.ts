@@ -59,7 +59,7 @@ export async function loginAdmin(req: Request, res: Response) {
   });
 }
 
-export async function fetchMe(req: Request, res: Response) {
+export async function adminDetails(req: Request, res: Response) {
   const prisma = new PrismaClient();
   const userId = parseInt(req.headers["userId"] as string);
 
@@ -80,9 +80,9 @@ export async function fetchMe(req: Request, res: Response) {
   });
 }
 
-export async function adminDetails(req: Request, res: Response) {
+export async function fetchAdminById(req: Request, res: Response) {
   const prisma = new PrismaClient();
-  const { id } = req.query;
+  const { id } = req.params;
 
   const admin = await prisma.admin.findUnique({
     where: {

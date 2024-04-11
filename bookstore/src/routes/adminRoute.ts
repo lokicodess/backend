@@ -1,7 +1,7 @@
 import express from "express";
 import {
   adminDetails,
-  fetchMe,
+  fetchAdminById,
   loginAdmin,
   registerAdmin,
   updateAdmin,
@@ -15,7 +15,7 @@ adminRouter.post("/register", registerAdmin);
 adminRouter.post("/login", loginAdmin);
 
 // adminRouter.get("/:id", authMiddleware, adminDetails);
-adminRouter.get("/me", authMiddleware, fetchMe);
+adminRouter.get("/me", authMiddleware, adminDetails);
 adminRouter.put("/me", authMiddleware, updateAdmin);
 
 export default adminRouter;

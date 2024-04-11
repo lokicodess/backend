@@ -4,15 +4,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const authorController_1 = require("../controllers/authorController");
 const authorRouter = express_1.default.Router();
-authorRouter.get("/", (req, res) => {
-    res.json({
-        message: "all authors fetched successfully",
-    });
-});
-authorRouter.get("/:id", (req, res) => {
-    res.json({
-        message: "author fetched successfully",
-    });
-});
+authorRouter.get("/", authorController_1.allAuthorDetails);
+authorRouter.get("/:id", authorController_1.authorById);
 exports.default = authorRouter;

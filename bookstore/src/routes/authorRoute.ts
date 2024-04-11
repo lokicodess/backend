@@ -1,17 +1,10 @@
 import express from "express";
+import { allAuthorDetails, authorById } from "../controllers/authorController";
 
 const authorRouter = express.Router();
 
-authorRouter.get("/", (req, res) => {
-  res.json({
-    message: "all authors fetched successfully",
-  });
-});
+authorRouter.get("/", allAuthorDetails);
 
-authorRouter.get("/:id", (req, res) => {
-  res.json({
-    message: "author fetched successfully",
-  });
-});
+authorRouter.get("/:id", authorById);
 
 export default authorRouter;

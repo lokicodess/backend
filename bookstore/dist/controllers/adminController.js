@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateAdmin = exports.adminDetails = exports.fetchMe = exports.loginAdmin = exports.registerAdmin = void 0;
+exports.updateAdmin = exports.fetchAdminById = exports.adminDetails = exports.loginAdmin = exports.registerAdmin = void 0;
 const client_1 = require("@prisma/client");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 function registerAdmin(req, res) {
@@ -69,7 +69,7 @@ function loginAdmin(req, res) {
     });
 }
 exports.loginAdmin = loginAdmin;
-function fetchMe(req, res) {
+function adminDetails(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         const prisma = new client_1.PrismaClient();
         const userId = parseInt(req.headers["userId"]);
@@ -89,11 +89,11 @@ function fetchMe(req, res) {
         });
     });
 }
-exports.fetchMe = fetchMe;
-function adminDetails(req, res) {
+exports.adminDetails = adminDetails;
+function fetchAdminById(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         const prisma = new client_1.PrismaClient();
-        const { id } = req.query;
+        const { id } = req.params;
         const admin = yield prisma.admin.findUnique({
             where: {
                 id: parseInt(id),
@@ -110,7 +110,7 @@ function adminDetails(req, res) {
         });
     });
 }
-exports.adminDetails = adminDetails;
+exports.fetchAdminById = fetchAdminById;
 function updateAdmin(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         const prisma = new client_1.PrismaClient();

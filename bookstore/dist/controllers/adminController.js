@@ -12,108 +12,129 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateUserDetails = exports.userDetails = exports.loginUser = exports.registerUser = void 0;
+exports.updateAdmin = exports.adminDetails = exports.fetchMe = exports.loginAdmin = exports.registerAdmin = void 0;
 const client_1 = require("@prisma/client");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-function registerUser(req, res) {
+function registerAdmin(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
+        const prisma = new client_1.PrismaClient();
         const { email } = req.body;
-        const prisma = new client_1.PrismaClient();
-        let user = yield prisma.user.findUnique({
-            where: {
-                email: email,
-            },
-        });
-        if (user) {
-            return res.json({
-                message: "user already exist",
-            });
-        }
-        user = yield prisma.user.create({
-            data: req.body,
-        });
-        const token = jsonwebtoken_1.default.sign({ userId: user.id.toString() }, "secret");
-        res.json({
-            message: "user successfully registered",
-            user,
-            token,
-        });
-    });
-}
-exports.registerUser = registerUser;
-function loginUser(req, res) {
-    return __awaiter(this, void 0, void 0, function* () {
-        const prisma = new client_1.PrismaClient();
-        const { email, password } = req.body;
-        let user = yield prisma.user.findUnique({
+        let admin = yield prisma.admin.findUnique({
             where: {
                 email,
             },
         });
-        if (!user) {
+        if (admin) {
             return res.json({
-                message: "user doesnt exist",
+                message: "admin already exist",
             });
         }
-        if (user.password != password) {
-            return res.json({
-                message: "wrong credentials",
-            });
-        }
-        const token = jsonwebtoken_1.default.sign({ userId: user.id.toString() }, "secret");
+        admin = yield prisma.admin.create({
+            data: req.body,
+        });
+        const token = jsonwebtoken_1.default.sign({ userId: admin.id.toString() }, "secret");
         res.json({
-            message: "user logged in successfully",
-            user,
+            message: "admin registered successfully",
+            admin,
             token,
         });
     });
 }
-exports.loginUser = loginUser;
-function userDetails(req, res) {
+exports.registerAdmin = registerAdmin;
+function loginAdmin(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         const prisma = new client_1.PrismaClient();
-        const userId = parseInt(req.headers["userId"]);
-        const user = yield prisma.user.findUnique({
+        const { email, password } = req.body;
+        let admin = yield prisma.admin.findUnique({
             where: {
-                id: userId,
+                email,
             },
         });
-        if (!user) {
+        if (!admin) {
             return res.json({
-                message: "user doesnt found",
+                message: "admin not found",
             });
         }
+        if (password != admin.password) {
+            return res.json({
+                message: "invalid credentials",
+            });
+        }
+        const token = jsonwebtoken_1.default.sign({ userId: admin.id.toString() }, "secret");
         res.json({
-            message: "user found",
-            user,
+            message: "admin logged in successfully",
+            admin,
+            token,
         });
     });
 }
-exports.userDetails = userDetails;
-function updateUserDetails(req, res) {
+exports.loginAdmin = loginAdmin;
+function fetchMe(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         const prisma = new client_1.PrismaClient();
         const userId = parseInt(req.headers["userId"]);
-        let user = yield prisma.user.findUnique({
+        const admin = yield prisma.admin.findUnique({
             where: {
                 id: userId,
             },
         });
-        if (!user) {
+        if (!admin) {
             return res.json({
-                message: "user doesnt found",
+                message: "admin not found",
             });
         }
-        user = yield prisma.user.update({
+        res.json({
+            message: "admin found",
+            admin,
+        });
+    });
+}
+exports.fetchMe = fetchMe;
+function adminDetails(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const prisma = new client_1.PrismaClient();
+        const { id } = req.query;
+        const admin = yield prisma.admin.findUnique({
             where: {
-                id: userId,
+                id: parseInt(id),
+            },
+        });
+        if (!admin) {
+            return res.json({
+                message: "admin not found",
+            });
+        }
+        res.json({
+            message: "admin found",
+            admin,
+        });
+    });
+}
+exports.adminDetails = adminDetails;
+function updateAdmin(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const prisma = new client_1.PrismaClient();
+        const userId = req.headers["userId"];
+        let admin = yield prisma.admin.findUnique({
+            where: {
+                id: parseInt(userId),
+            },
+        });
+        if (!admin) {
+            return res.json({
+                message: "admin not exist",
+            });
+        }
+        admin = yield prisma.admin.update({
+            where: {
+                id: parseInt(userId),
             },
             data: req.body,
         });
         res.json({
-            message: "user updated",
-            user,
+            message: "admin updated successfully",
+            admin,
         });
     });
 }
-exports.updateUserDetails = updateUserDetails;
+exports.updateAdmin = updateAdmin;

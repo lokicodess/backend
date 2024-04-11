@@ -4,20 +4,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const adminController_1 = require("../controllers/adminController");
+const authMiddleware_1 = __importDefault(require("../middlewares/authMiddleware"));
 const adminRouter = express_1.default.Router();
-adminRouter.get("/register", (req, res) => {
-    res.json({
-        message: "admin registered successfully",
-    });
-});
-adminRouter.post("/login", (req, res) => {
-    res.json({
-        message: "admin logged in successfully",
-    });
-});
-adminRouter.put("/:id", (req, res) => {
-    res.json({
-        message: "admin details fetched  successfully",
-    });
-});
+adminRouter.post("/register", adminController_1.registerAdmin);
+adminRouter.post("/login", adminController_1.loginAdmin);
+// adminRouter.get("/:id", authMiddleware, adminDetails);
+adminRouter.get("/me", authMiddleware_1.default, adminController_1.fetchMe);
+adminRouter.put("/me", authMiddleware_1.default, adminController_1.updateAdmin);
 exports.default = adminRouter;

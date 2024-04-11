@@ -18,10 +18,11 @@ export async function registerUser(req: Request, res: Response) {
   user = await prisma.user.create({
     data: req.body,
   });
-  jwt.sign({ userId: user.id.toString() }, "secret");
+  const token = jwt.sign({ userId: user.id.toString() }, "secret");
   res.json({
     message: "user successfully registered",
     user,
+    token,
   });
 }
 

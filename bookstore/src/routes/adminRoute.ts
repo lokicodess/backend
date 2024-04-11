@@ -1,23 +1,21 @@
 import express from "express";
+import {
+  adminDetails,
+  fetchMe,
+  loginAdmin,
+  registerAdmin,
+  updateAdmin,
+} from "../controllers/adminController";
+import authMiddleware from "../middlewares/authMiddleware";
 
 const adminRouter = express.Router();
 
-adminRouter.get("/register", (req, res) => {
-  res.json({
-    message: "admin registered successfully",
-  });
-});
+adminRouter.post("/register", registerAdmin);
 
-adminRouter.post("/login", (req, res) => {
-  res.json({
-    message: "admin logged in successfully",
-  });
-});
+adminRouter.post("/login", loginAdmin);
 
-adminRouter.put("/:id", (req, res) => {
-  res.json({
-    message: "admin details fetched  successfully",
-  });
-});
+// adminRouter.get("/:id", authMiddleware, adminDetails);
+adminRouter.get("/me", authMiddleware, fetchMe);
+adminRouter.put("/me", authMiddleware, updateAdmin);
 
 export default adminRouter;

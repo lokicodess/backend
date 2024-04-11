@@ -5,17 +5,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const cartRouter = express_1.default.Router();
-cartRouter.post("/cart/add", (req, res) => {
+cartRouter.post("/", (req, res) => {
     res.json({
         message: "added to the cart",
     });
 });
-cartRouter.get("/cart", (req, res) => {
+cartRouter.get("/", (req, res) => {
     res.json({
         message: "fetched the cart ",
     });
 });
-cartRouter.delete("/cart/:id", (req, res) => {
+cartRouter.delete("/:id", (req, res) => {
     res.json({
         message: "item deleted from the cart",
     });

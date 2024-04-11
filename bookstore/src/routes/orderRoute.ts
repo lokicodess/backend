@@ -1,23 +1,22 @@
 import express from "express";
+import {
+  deleteOrder,
+  getAllOrders,
+  getOrderById,
+  registerOrder,
+  updateOrder,
+} from "../controllers/orderController";
 
 const orderRouter = express.Router();
 
-orderRouter.post("/", (req, res) => {
-  res.json({
-    message: "new order created",
-  });
-});
+orderRouter.post("/", registerOrder);
 
-orderRouter.get("/", (req, res) => {
-  res.json({
-    message: "all orders fetched successfully",
-  });
-});
+orderRouter.get("/", getAllOrders);
 
-orderRouter.get("/:id", (req, res) => {
-  res.json({
-    message: "order fetched successfully",
-  });
-});
+orderRouter.get("/:id", getOrderById);
+
+orderRouter.put("/:id", updateOrder);
+
+orderRouter.delete("/:id", deleteOrder);
 
 export default orderRouter;

@@ -4,20 +4,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const authMiddleware_1 = __importDefault(require("../middlewares/authMiddleware"));
+const reviewController_1 = require("../controllers/reviewController");
 const reviewRouter = express_1.default.Router();
-reviewRouter.post("/", (req, res) => {
-    res.json({
-        message: "new review added ",
-    });
-});
-reviewRouter.get("/", (req, res) => {
-    res.json({
-        message: "all reviews fetched successfully",
-    });
-});
-reviewRouter.get("/:id", (req, res) => {
-    res.json({
-        message: "review fetched successfully",
-    });
-});
+reviewRouter.post("/", reviewController_1.addReview);
+reviewRouter.get("/", authMiddleware_1.default, reviewController_1.getReviewById);
+reviewRouter.get("/:id", authMiddleware_1.default, reviewController_1.getReviewById);
 exports.default = reviewRouter;

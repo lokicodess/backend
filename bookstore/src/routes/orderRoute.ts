@@ -6,17 +6,18 @@ import {
   registerOrder,
   updateOrder,
 } from "../controllers/orderController";
+import authMiddleware from "../middlewares/authMiddleware";
 
 const orderRouter = express.Router();
 
-orderRouter.post("/", registerOrder);
+orderRouter.post("/", authMiddleware, registerOrder);
 
-orderRouter.get("/", getAllOrders);
+orderRouter.get("/", authMiddleware, getAllOrders);
 
-orderRouter.get("/:id", getOrderById);
+orderRouter.get("/:id", authMiddleware, getOrderById);
 
-orderRouter.put("/:id", updateOrder);
+orderRouter.put("/:id", authMiddleware, updateOrder);
 
-orderRouter.delete("/:id", deleteOrder);
+orderRouter.delete("/:id", authMiddleware, deleteOrder);
 
 export default orderRouter;

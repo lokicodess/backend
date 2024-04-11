@@ -1,23 +1,17 @@
 import express from "express";
+import authMiddleware from "../middlewares/authMiddleware";
+import {
+  addReview,
+  getAllReviews,
+  getReviewById,
+} from "../controllers/reviewController";
 
 const reviewRouter = express.Router();
 
-reviewRouter.post("/", (req, res) => {
-  res.json({
-    message: "new review added ",
-  });
-});
+reviewRouter.post("/", addReview);
 
-reviewRouter.get("/", (req, res) => {
-  res.json({
-    message: "all reviews fetched successfully",
-  });
-});
+reviewRouter.get("/", authMiddleware, getReviewById);
 
-reviewRouter.get("/:id", (req, res) => {
-  res.json({
-    message: "review fetched successfully",
-  });
-});
+reviewRouter.get("/:id", authMiddleware, getReviewById);
 
 export default reviewRouter;

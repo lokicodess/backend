@@ -10,14 +10,14 @@ import authMiddleware from "../middlewares/authMiddleware";
 
 const bookRouter = express.Router();
 
-bookRouter.get("/", authMiddleware, getAllBooks);
+bookRouter.get("/", getAllBooks);
 
-bookRouter.get("/books/:id", authMiddleware, getBookById);
+bookRouter.get("/:id", getBookById);
 
-bookRouter.post("/", authMiddleware, registerBook);
+bookRouter.post("/register", registerBook);
 
-bookRouter.put("/books/:id", authMiddleware, updateBook);
+bookRouter.put("/:id", updateBook);
 
-bookRouter.delete("/books/:id", authMiddleware, deleteBook);
+bookRouter.delete("/:id", deleteBook);
 
 export default bookRouter;

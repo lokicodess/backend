@@ -1,11 +1,17 @@
-// import express from "express";
-// import { allAuthorDetails, authorById } from "../controllers/authorController";
-// import authMiddleware from "../middlewares/authMiddleware";
+import express from "express";
+import {
+  allAuthorDetails,
+  authorById,
+  registerAuthor,
+} from "../controllers/authorController";
+import authMiddleware from "../middlewares/authMiddleware";
 
-// const authorRouter = express.Router();
+const authorRouter = express.Router();
 
-// authorRouter.get("/", authMiddleware, allAuthorDetails);
+authorRouter.post("/register", registerAuthor);
 
-// authorRouter.get("/:id", authMiddleware, authorById);
+authorRouter.get("/", authMiddleware, allAuthorDetails);
 
-// export default authorRouter;
+authorRouter.get("/:id", authMiddleware, authorById);
+
+export default authorRouter;

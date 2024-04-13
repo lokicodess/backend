@@ -36,6 +36,7 @@ model admin {
 model author {
   id Int @id @default(autoincrement())
   name String
+  email String @unique
   biography String?
   book book[]
   created_at DateTime @default(now())
@@ -50,7 +51,7 @@ model book {
   category category
   price Int
   inventory Int
-  published_date DateTime
+  published_date DateTime @default(now())
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
   review review[]
@@ -62,7 +63,7 @@ model order {
   user_id Int
   items String[]
   total_price Int
-  status status
+  status status @default(PENDING)
   created_at DateTime @default(now())
 }
 

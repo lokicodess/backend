@@ -13,102 +13,161 @@ exports.deleteBook = exports.updateBook = exports.getBookById = exports.getAllBo
 const client_1 = require("@prisma/client");
 function registerBook(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        const prisma = new client_1.PrismaClient();
-        const book = yield prisma.book.create({
-            data: req.body,
-        });
-        res.json({
-            message: "book added successfully",
-            book,
-        });
+        try {
+            const prisma = new client_1.PrismaClient();
+            const book = yield prisma.book.create({
+                data: req.body,
+            });
+            res.status(201).json({
+                success: true,
+                message: "Book added successfully.",
+                book,
+            });
+        }
+        catch (error) {
+            if (error instanceof Error) {
+                res.status(500).json({
+                    success: false,
+                    message: error.message,
+                });
+            }
+        }
     });
 }
 exports.registerBook = registerBook;
 function getAllBooks(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        const prisma = new client_1.PrismaClient();
-        const books = yield prisma.book.findMany();
-        if (!books) {
-            return res.json({
-                message: "books not found",
+        try {
+            const prisma = new client_1.PrismaClient();
+            const books = yield prisma.book.findMany();
+            if (!books || books.length === 0) {
+                return res.status(404).json({
+                    success: false,
+                    message: "Books not found.",
+                });
+            }
+            res.status(200).json({
+                success: true,
+                message: "Books found.",
+                books,
             });
         }
-        res.json({
-            message: "books found",
-            books,
-        });
+        catch (error) {
+            if (error instanceof Error) {
+                res.status(500).json({
+                    success: false,
+                    message: error.message,
+                });
+            }
+        }
     });
 }
 exports.getAllBooks = getAllBooks;
 function getBookById(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        const prisma = new client_1.PrismaClient();
-        const { id } = req.params;
-        const book = yield prisma.book.findUnique({
-            where: {
-                id: parseInt(id),
-            },
-        });
-        if (!book) {
-            return res.json({
-                message: "book not found",
+        try {
+            const prisma = new client_1.PrismaClient();
+            const { id } = req.params;
+            const book = yield prisma.book.findUnique({
+                where: {
+                    id: parseInt(id),
+                },
+            });
+            if (!book) {
+                return res.status(404).json({
+                    success: false,
+                    message: "Book not found.",
+                });
+            }
+            res.status(200).json({
+                success: true,
+                message: "Book found.",
+                book,
             });
         }
-        res.json({
-            message: "book found",
-            book,
-        });
+        catch (error) {
+            if (error instanceof Error) {
+                res.status(500).json({
+                    success: false,
+                    message: error.message,
+                });
+            }
+        }
     });
 }
 exports.getBookById = getBookById;
 function updateBook(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        const prisma = new client_1.PrismaClient();
-        const { id } = req.params;
-        let book = yield prisma.book.findUnique({
-            where: {
-                id: parseInt(id),
-            },
-        });
-        if (!book) {
-            return res.json({
-                message: "book not found",
+        try {
+            const prisma = new client_1.PrismaClient();
+            const { id } = req.params;
+            let book = yield prisma.book.findUnique({
+                where: {
+                    id: parseInt(id),
+                },
+            });
+            if (!book) {
+                return res.status(404).json({
+                    success: false,
+                    message: "Book not found.",
+                });
+            }
+            book = yield prisma.book.update({
+                where: {
+                    id: parseInt(id),
+                },
+                data: req.body,
+            });
+            res.status(200).json({
+                success: true,
+                message: "Book updated successfully.",
             });
         }
-        book = yield prisma.book.update({
-            where: {
-                id: parseInt(id),
-            },
-            data: req.body,
-        });
-        res.json({
-            message: "book updated successfully",
-        });
+        catch (error) {
+            if (error instanceof Error) {
+                res.status(500).json({
+                    success: false,
+                    message: error.message,
+                });
+            }
+        }
     });
 }
 exports.updateBook = updateBook;
 function deleteBook(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        const prisma = new client_1.PrismaClient();
-        const { id } = req.params;
-        let book = yield prisma.book.findUnique({
-            where: {
-                id: parseInt(id),
-            },
-        });
-        if (!book) {
-            return res.json({
-                message: "book not found , unable to delete",
+        try {
+            const prisma = new client_1.PrismaClient();
+            const { id } = req.params;
+            const book = yield prisma.book.findUnique({
+                where: {
+                    id: parseInt(id),
+                },
+            });
+            if (!book) {
+                return res.status(404).json({
+                    success: false,
+                    message: "Book not found, unable to delete.",
+                });
+            }
+            yield prisma.book.delete({
+                where: {
+                    id: parseInt(id),
+                },
+            });
+            res.status(200).json({
+                success: true,
+                message: "Book deleted successfully.",
             });
         }
-        yield prisma.book.delete({
-            where: {
-                id: parseInt(id),
-            },
-        });
-        res.json({
-            message: "book deleted successfully",
-        });
+        catch (error) {
+            if (error instanceof Error) {
+                res.status(500).json({
+                    success: false,
+                    message: error.message,
+                });
+            }
+        }
     });
 }
 exports.deleteBook = deleteBook;

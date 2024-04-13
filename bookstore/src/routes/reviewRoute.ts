@@ -8,9 +8,9 @@ import {
 
 const reviewRouter = express.Router();
 
-reviewRouter.post("/", addReview);
+reviewRouter.post("/register", addReview);
 
-reviewRouter.get("/", authMiddleware, getReviewById);
+reviewRouter.get("/", authMiddleware, getAllReviews);
 
 reviewRouter.get("/:id", authMiddleware, getReviewById);
 

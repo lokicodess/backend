@@ -7,7 +7,7 @@ const express_1 = __importDefault(require("express"));
 const orderController_1 = require("../controllers/orderController");
 const authMiddleware_1 = __importDefault(require("../middlewares/authMiddleware"));
 const orderRouter = express_1.default.Router();
-orderRouter.post("/", authMiddleware_1.default, orderController_1.registerOrder);
+orderRouter.post("/register", authMiddleware_1.default, orderController_1.registerOrder);
 orderRouter.get("/", authMiddleware_1.default, orderController_1.getAllOrders);
 orderRouter.get("/:id", authMiddleware_1.default, orderController_1.getOrderById);
 orderRouter.put("/:id", authMiddleware_1.default, orderController_1.updateOrder);

@@ -10,7 +10,7 @@ import authMiddleware from "../middlewares/authMiddleware";
 
 const orderRouter = express.Router();
 
-orderRouter.post("/", authMiddleware, registerOrder);
+orderRouter.post("/register", authMiddleware, registerOrder);
 
 orderRouter.get("/", authMiddleware, getAllOrders);
 

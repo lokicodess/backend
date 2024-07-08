@@ -8,6 +8,8 @@ const authorController_1 = require("../controllers/authorController");
 const authMiddleware_1 = __importDefault(require("../middlewares/authMiddleware"));
 const authorRouter = express_1.default.Router();
 authorRouter.post("/register", authorController_1.registerAuthor);
+authorRouter.post("/login", authorController_1.loginAuthor);
 authorRouter.get("/", authMiddleware_1.default, authorController_1.allAuthorDetails);
 authorRouter.get("/:id", authMiddleware_1.default, authorController_1.authorById);
+authorRouter.delete("/:id", authMiddleware_1.default, authorController_1.deleteAuthor);
 exports.default = authorRouter;

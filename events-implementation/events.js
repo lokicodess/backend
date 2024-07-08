@@ -9,6 +9,7 @@ class Events {
       const allFunctions = this.events[val] ? this.events[val] : [];
       allFunctions.push(fs);
       this.events[val] = allFunctions;
+      return this.events;
    }
 
    removeEvents(val) {
@@ -44,8 +45,6 @@ function servePizza() {
 
 events.on("pizza", createPizza);
 events.on("pizza", servePizza);
-
-events.eventsOnce("pizza");
 events.emits("pizza");
 
-console.log(events);
+module.exports = Events;
